@@ -33,7 +33,7 @@ Groveコネクタ → ESP32-WROOM開発ボードへ4本だけ。
 - マークが無い → V1
 - 2020年4月以降に出荷されたものは V2
 
-本プロジェクトの初期値は **V2**（`main/epaper_config.h` の `EPAPER_DEFAULT_PANEL`）。間違った世代で初期化すると、無表示になったり全面が乱れたりします。書き込み後にシリアルモニタで切り替えられるので、まず両方試すのが早いです（下記）。
+本プロジェクトの初期値は **V1**（`main/epaper_config.h` の `EPAPER_DEFAULT_PANEL`、手元の実機がV1だったため）。間違った世代で初期化すると、無表示になったり全面が乱れたりします。書き込み後にシリアルモニタで切り替えられるので、まず両方試すのが早いです（下記）。
 
 ## ビルドと書き込み
 
@@ -77,7 +77,7 @@ idf.py -p /dev/ttyUSB0 flash monitor   # ポートは環境に合わせて
 // 初期化 (最初に1回)
 sc18is602_init(EPAPER_I2C_SDA_GPIO, EPAPER_I2C_SCL_GPIO,
                SC18IS602_I2C_ADDR, EPAPER_I2C_FREQ_HZ);
-epaper_init(EPAPER_PANEL_V2);          // 裏面に [V2] が無ければ EPAPER_PANEL_V1
+epaper_init(EPAPER_PANEL_V1);          // 裏面に [V2] がある個体は EPAPER_PANEL_V2
 
 // 描画 (200x200, 原点=左上)
 epaper_fb_clear(EPAPER_WHITE);
@@ -135,7 +135,7 @@ epaper_display_full();
 ## 検証状況
 
 - ESP-IDF **v5.4.2** / ターゲット esp32 でビルド確認済み（`.bin` の生成まで）
-- **実機は未検証**（モジュール現物が手元に無いため）。初回はシリアルログで `bridge ready` → `panel ready` が出るかと、`!v1`/`!v2` のどちらで正しく表示されるかを確認してください
+- 手元の実機は **V1** パネルと確認済み（2026-10-31）のため初期値をV1に設定。表示動作の実機確認はこれから。初回はシリアルログで `bridge ready` → `panel ready: V1` が出るかを確認してください
 
 ## ファイル構成
 
