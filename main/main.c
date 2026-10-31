@@ -28,6 +28,7 @@
 #include "epaper.h"
 #include "sc18is602.h"
 #include "epaper_config.h"
+#include "jp_text.h"   /* 日本語ビットマップ: こんにちわ、 / 電子ペーパー、 */
 
 static const char *TAG = "MAIN";
 
@@ -49,10 +50,13 @@ static void draw_demo_screen(void)
     epaper_fb_fill_rect(0, 0, 199, 34, EPAPER_BLACK);
     epaper_fb_draw_string(10, 9, "ESP32-WROOM", &Font16, EPAPER_WHITE);
     epaper_fb_draw_string(140, 12, "e-Paper", &Font12, EPAPER_WHITE);
-    /* 本文 */
-    epaper_fb_draw_string(18, 48, "Hello, e-Paper!", &Font16, EPAPER_BLACK);
-    epaper_fb_draw_string(10, 76, "1.54 inch 200x200", &Font12, EPAPER_BLACK);
-    epaper_fb_draw_string(10, 92, "I2C via SC18IS602B", &Font12, EPAPER_BLACK);
+    /* 本文 (日本語はビットマップで中央寄せ) */
+    epaper_fb_draw_bitmap((200 - JP_LINE1_WIDTH) / 2, 46,
+                          JP_LINE1_WIDTH, JP_LINE1_HEIGHT,
+                          JP_LINE1_DATA, EPAPER_BLACK);
+    epaper_fb_draw_bitmap((200 - JP_LINE2_WIDTH) / 2, 78,
+                          JP_LINE2_WIDTH, JP_LINE2_HEIGHT,
+                          JP_LINE2_DATA, EPAPER_BLACK);
     /* カウンタのラベルと枠 */
     epaper_fb_draw_string(10, 122, "UP:", &Font12, EPAPER_BLACK);
     epaper_fb_draw_rect(COUNTER_X - 4, COUNTER_Y - 4,
